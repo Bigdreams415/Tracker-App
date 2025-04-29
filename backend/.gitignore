@@ -1,0 +1,16 @@
+# Dependency directories
+node_modules/
+
+# Lockfiles (choose one based on your package manager)
+package-lock.json  # For npm
+yarn.lock          # For Yarn
+pnpm-lock.yaml     # For pnpm
+
+# Environment variables
+.env
+.env.local
+
+# Build files
+dist/
+.next/
+out/

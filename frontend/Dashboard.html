@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <div class="dashboard-container">
+    <h1>Admin Dashboard</h1>
+
+    <!-- Add New Transaction Form -->
+    <section class="add-transaction">
+      <h2>Add New Transaction</h2>
+      <form id="addTransactionForm">
+        <input type="text" id="transactionNumber" placeholder="Transaction Number" required>
+        <button type="submit">Add Transaction</button>
+      </form>
+    </section>
+
+    <hr>
+
+    <!-- Transaction List -->
+    <section class="transaction-list">
+      <h2>Transactions</h2>
+      <div id="transactionsContainer">
+        <!-- Transactions will be loaded here -->
+      </div>
+    </section>
+
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
