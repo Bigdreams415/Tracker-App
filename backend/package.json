@@ -1,4 +1,16 @@
 {
+  "name": "tracker-app",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm run build,
+    "start": "node server.js"
+  }
+}
+
+
+
+
+{
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
