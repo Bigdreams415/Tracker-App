@@ -12,7 +12,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
       company: document.getElementById('company').value
     };
 
-    const response = await fetch('/api/transactions', {
+    const response = await fetch('https://smart-tracker-zwnd.onrender.com/api/transactions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ document.getElementById('searchForm').addEventListener('submit', async (e) => {
   const updateForm = document.getElementById('updateForm');
   
   try {
-    const response = await fetch(`/api/transactions/${trackingNumber}`);
+    const response = await fetch(`https://smart-tracker-zwnd.onrender.com/api/transactions/${trackingNumber}`);
     if (!response.ok) throw new Error('Transaction not found');
     
     const transaction = await response.json();
@@ -81,7 +81,7 @@ document.getElementById('searchForm').addEventListener('submit', async (e) => {
     updateStatusElement.textContent = '';
 
     try {
-      const response = await fetch(`/api/transactions/${transaction._id}/updates`, {
+      const response = await fetch(`https://smart-tracker-zwnd.onrender.com/api/transactions/${transaction._id}/updates`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

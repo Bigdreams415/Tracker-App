@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api/admin/login';
+const API_URL = 'https://smart-tracker-zwnd.onrender.com/api/admin/login';
 
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();

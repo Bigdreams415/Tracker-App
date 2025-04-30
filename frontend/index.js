@@ -49,7 +49,7 @@ document.getElementById('fundTrackingForm').addEventListener('submit', function(
     container.style.display = 'block';
   
     try {
-      const response = await fetch(`/api/transactions/${trackingNumber}`);
+      const response = await fetch(`https://smart-tracker-zwnd.onrender.com/api/transactions/${trackingNumber}`);
       
       if (!response.ok) {
         const error = await response.json();
