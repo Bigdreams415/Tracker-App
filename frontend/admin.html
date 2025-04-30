@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FundTracker - Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    /* Added new styles */
+    .hidden { display: none; }
+    .status-update {
+      background: #f8f9fa;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      border-left: 4px solid #3498db;
+    }
+    .status-update strong {
+      color: #2c3e50;
+    }
+    .status-update small {
+      color: #7f8c8d;
+      margin-left: 1rem;
+    }
+    #historyList {
+      max-height: 300px;
+      overflow-y: auto;
+      margin: 1rem 0;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FundTrackr Dashboard</h1>
+    <button id="logoutBtn">Logout</button>
+  </header>
+
+  <main>
+    <!-- New Transaction Registration -->
+    <section>
+      <h2>Register New Transaction</h2>
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="trackingNumber">Tracking Number</label>
+          <input type="text" id="trackingNumber" placeholder="TRK123456" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="personName">Recipient Name</label>
+          <input type="text" id="personName" placeholder="John Doe" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" placeholder="1000.00" step="0.01" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="company">Paying Company</label>
+          <input type="text" id="company" placeholder="Acme Inc" required>
+        </div>
+        
+        <button type="submit">Register Transaction</button>
+      </form>
+      <p id="registerStatus"></p>
+    </section>
+
+    <!-- Transaction Status Update -->
+    <section>
+      <h2>Transaction Status</h2>
+      <form id="searchForm">
+        <div class="form-group">
+          <label for="searchTrackingNumber">Search by Tracking Number</label>
+          <input type="text" id="searchTrackingNumber" placeholder="Enter tracking number" required>
+        </div>
+        <button type="submit">Search</button>
+      </form>
+      
+      <div id="transactionDetails" class="hidden">
+        <h3>Transaction History</h3>
+        <div id="historyList"></div>
+        
+        <form id="updateForm" class="hidden">
+          <div class="form-group">
+            <label for="statusStage">Update Status</label>
+            <select id="statusStage" required>
+              <option value="Initiated">Initiated</option>
+              <option value="Pending Verification">Pending Verification</option>
+              <option value="Verified">Verified</option>
+              <option value="Under Review">Under Review</option>
+              <option value="Processing">Processing</option>
+              <option value="Awaiting Confirmation">Awaiting Confirmation</option>
+              <option value="Authorized">Authorized</option>
+              <option value="Queued for Dispatch">Queued for Dispatch</option>
+              <option value="In Transit">In Transit</option>
+              <option value="Awaiting Final Settlement">Awaiting Final Settlement</option>
+              <option value="Settled">Settled</option>
+              <option value="Sent">Sent</option>
+              <option value="Recipient Notified">Recipient Notified</option>
+              <option value="Completed">Completed</option>
+              <option value="Failed">Failed</option>
+              <option value="On Hold">On Hold</option>
+              <option value="Cancelled">Cancelled</option>
+              <option value="Refunded">Refunded</option>
+              <option value="Disputed">Disputed</option>
+              <option value="Escrow Holding">Escrow Holding</option>
+              <option value="Escrow Released">Escrow Released</option>
+              <option value="Expired">Expired</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="statusMessage">Update Message</label>
+            <textarea id="statusMessage" rows="3" placeholder="Enter status update message..."></textarea>
+          </div>
+          
+          <button type="submit">Add Status Update</button>
+        </form>
+      </div>
+      <p id="updateStatus"></p>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>

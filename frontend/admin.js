@@ -1,96 +1,131 @@
-document.getElementById('addTransactionForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const transactionNumber = document.getElementById('transactionNumber').value.trim();
+
+// Transaction Registration
+document.getElementById('registerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const statusElement = document.getElementById('registerStatus');
   
-    try {
-      const res = await fetch('/admin/transaction', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ transactionNumber })
-      });
-  
-      const data = await res.json();
-      
-      if (data.success) {
-        alert('Transaction added successfully!');
-        loadTransactions();
-        document.getElementById('transactionNumber').value = '';
-      } else {
-        alert(data.message || 'Error adding transaction');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('Something went wrong');
+  try {
+    const transactionData = {
+      trackingNumber: document.getElementById('trackingNumber').value,
+      personName: document.getElementById('personName').value,
+      amount: parseFloat(document.getElementById('amount').value),
+      company: document.getElementById('company').value
+    };
+
+    const response = await fetch('/api/transactions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+      },
+      body: JSON.stringify(transactionData)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Registration failed');
     }
+
+    const result = await response.json();
+    statusElement.textContent = `Success! Transaction registered: ${result.trackingNumber}`;
+    statusElement.style.color = 'green';
+    
+    // Clear form
+    e.target.reset();
+    
+  } catch (err) {
+    statusElement.textContent = `Error: ${err.message}`;
+    statusElement.style.color = 'red';
+    console.error('Registration error:', err);
+  }
+
+  console.log('Attempting to register:', {
+    trackingNumber: document.getElementById('trackingNumber').value,
+    personName: document.getElementById('personName').value,
+    amount: document.getElementById('amount').value,
+    company: document.getElementById('company').value
   });
+
+});
+
+
+// Search Transaction
+document.getElementById('searchForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const trackingNumber = document.getElementById('searchTrackingNumber').value;
+  const detailsElement = document.getElementById('transactionDetails');
+  const historyList = document.getElementById('historyList');
+  const updateForm = document.getElementById('updateForm');
   
-  // Load Transactions
-  async function loadTransactions() {
-    const container = document.getElementById('transactionsContainer');
-    container.innerHTML = '<p>Loading...</p>';
-  
+  try {
+    const response = await fetch(`/api/transactions/${trackingNumber}`);
+    if (!response.ok) throw new Error('Transaction not found');
+    
+    const transaction = await response.json();
+    
+    // Display transaction details
+    detailsElement.classList.remove('hidden');
+    historyList.innerHTML = transaction.statusUpdates.map(update => `
+      <div class="status-update">
+        <strong>${update.stage.toUpperCase()}</strong>
+        <small>${new Date(update.updatedAt).toLocaleString()}</small>
+        <p>${update.message || 'No message provided'}</p>
+      </div>
+    `).join('');
+    
+    // Set up update form
+    updateForm.classList.remove('hidden');
+    updateForm.onsubmit = async (e) => {
+    e.preventDefault();
+    const updateStatusElement = document.getElementById('updateStatus');
+    updateStatusElement.textContent = '';
+
     try {
-      const res = await fetch('/admin/transactions');
-      const data = await res.json();
-  
-      if (data.success) {
-        container.innerHTML = '';
-  
-        data.transactions.forEach(transaction => {
-          const card = document.createElement('div');
-          card.className = 'transaction-card';
-          card.innerHTML = `
-            <h3>${transaction.transactionNumber}</h3>
-            <div class="transaction-stages">
-              ${transaction.stages.map(stage => `
-                <div class="stage">
-                  <strong>${stage.status}</strong> <br>
-                  <small>${new Date(stage.timestamp).toLocaleString()}</small>
-                </div>
-              `).join('')}
-            </div>
-            <button onclick="addStatus('${transaction._id}')">Add New Status</button>
-          `;
-          container.appendChild(card);
-        });
-  
-      } else {
-        container.innerHTML = '<p>No transactions found.</p>';
-      }
-  
-    } catch (error) {
-      console.error(error);
-      container.innerHTML = '<p>Error loading transactions.</p>';
+      const response = await fetch(`/api/transactions/${transaction._id}/updates`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+        },
+        body: JSON.stringify({
+          stage: document.getElementById('statusStage').value,
+          message: document.getElementById('statusMessage').value
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) throw new Error(result.message || 'Update failed');
+      
+      // Show success message
+      updateStatusElement.textContent = '✓ Status updated successfully!';
+      updateStatusElement.style.color = 'green';
+      
+      // Clear form fields
+      document.getElementById('statusMessage').value = '';
+      
+      // Refresh the transaction display
+      document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+      
+    } catch (err) {
+      updateStatusElement.textContent = `Error: ${err.message}`;
+      updateStatusElement.style.color = 'red';
+      console.error('Update error:', err);
     }
+    };
+    
+  } catch (err) {
+    detailsElement.classList.add('hidden');
+    alert('Error: ' + err.message);
   }
-  
-  // Add New Status
-  async function addStatus(transactionId) {
-    const status = prompt('Enter new status name (or choose):');
-  
-    if (status) {
-      try {
-        const res = await fetch(`/admin/transaction/${transactionId}/status`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status })
-        });
-  
-        const data = await res.json();
-        
-        if (data.success) {
-          alert('Status added!');
-          loadTransactions();
-        } else {
-          alert(data.message || 'Error adding status');
-        }
-      } catch (error) {
-        console.error(error);
-        alert('Something went wrong');
-      }
-    }
-  }
-  
-  // Initial load
-  loadTransactions();
-  
+});
+
+
+// During update
+updateForm.querySelector('button').disabled = true;
+updateForm.querySelector('button').textContent = 'Updating...';
+
+// After update/failure
+updateForm.querySelector('button').disabled = false;
+updateForm.querySelector('button').textContent = 'Add Status Update';
+

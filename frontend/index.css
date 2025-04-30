@@ -1259,3 +1259,165 @@
       justify-content: center;
     }
   }
+
+ /* Main Results Container */
+.tracking-results {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  margin-top: 2rem;
+  display: none;
+}
+
+/* Header Section */
+.results-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.results-header h3 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.tracking-id {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+}
+
+.tracking-id span {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+/* Status Cards Grid */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.status-card {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 1.25rem;
+  border-left: 4px solid #e74c3c;
+}
+
+.status-card h4 {
+  color: #7f8c8d;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.status-card p {
+  color: #2c3e50;
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.amount {
+  color: #27ae60;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+/* Status History */
+.status-history {
+  margin-top: 2rem;
+}
+
+.status-history h4 {
+  color: #2c3e50;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #f0f0f0;
+}
+
+.update-item {
+  position: relative;
+  padding-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+
+.update-item:last-child {
+  padding-bottom: 0;
+}
+
+.update-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #e74c3c;
+  z-index: 1;
+}
+
+.update-date {
+  color: #7f8c8d;
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.update-stage {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.update-message {
+  color: #555;
+  line-height: 1.5;
+  background: #f9fafb;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.initiated { background: #e3f2fd; color: #1565c0; }
+.status-badge.pending-verification { background: #fff8e1; color: #ff8f00; }
+.status-badge.verified { background: #e8f5e9; color: #2e7d32; }
+.status-badge.processing { background: #e3f2fd; color: #1976d2; }
+.status-badge.completed { background: #e8f5e9; color: #1b5e20; }
+.status-badge.failed { background: #ffebee; color: #c62828; }
+.status-badge.on-hold { background: #fff8e1; color: #ff8f00; }
